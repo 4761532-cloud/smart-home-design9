@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smart Home Appliance Control</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+    font-family:'Inter',sans-serif;
+    background:#0a0a0a;
+    color:white;
+}
+.hidden{display:none;}
+
+.home-bg{
+    background:
+    linear-gradient(rgba(0,0,0,.75), rgba(0,0,0,.85)),
+    url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80");
+    background-size:cover;
+}
+
+.dashboard-bg{
+    background:
+    linear-gradient(rgba(0,0,0,.8), rgba(0,0,0,.9)),
+    url("https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1600&q=80");
+    background-size:cover;
+    background-attachment:fixed;
+}
+
+.glass{
+    background: rgba(255,255,255,.08);
+    backdrop-filter: blur(14px);
+    border:1px solid rgba(255,255,255,.15);
+    transition:.3s;
+}
+.glass:hover{
+    border-color:#3b82f6;
+    transform:translateY(-6px) scale(1.02);
+}
+.device-img{
+    width:260px;
+    border-radius:16px;
+    margin-bottom:20px;
+}
+</style>
+</head>
+
+<body>
+
+<nav class="flex justify-between items-center p-6 bg-black/70 sticky top-0 z-50">
+    <h1 class="text-2xl font-bold text-blue-500">SMART HOME</h1>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="home-bg h-[75vh] flex flex-col justify-center items-center text-center">
+    <h1 class="text-5xl font-bold mb-6">Control Your Smart Home</h1>
+    <p class="text-gray-300 mb-8">Manage lights, fans, AC and more</p>
+
+    <button onclick="openDashboard()" class="bg-blue-600 px-8 py-3 rounded font-bold">
+        Open Dashboard
+    </button>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="hidden dashboard-bg min-h-screen py-24">
+<h2 class="text-3xl font-bold text-center mb-14">Smart Appliances</h2>
+
+<div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-10 px-6">
+
+<div onclick="openDevice('light')" class="glass p-8 rounded-xl text-center cursor-pointer">
+    <h3 class="text-xl font-bold mb-3">💡 Smart Light</h3>
+</div>
+
+<div onclick="openDevice('fan')" class="glass p-8 rounded-xl text-center cursor-pointer">
+    <h3 class="text-xl font-bold mb-3">🌀 Smart Fan</h3>
+</div>
+
+<div onclick="openDevice('door')" class="glass p-8 rounded-xl text-center cursor-pointer">
+    <h3 class="text-xl font-bold mb-3">🔒 Smart Door</h3>
+</div>
+
+</div>
+</section>
+
+<!-- LIGHT PAGE -->
+<section id="lightPage" class="hidden dashboard-bg min-h-screen flex flex-col justify-center items-center">
+    <img class="device-img"
+     src="https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&w=500&q=80">
+
+    <h2 class="text-4xl font-bold mb-4">Smart Light</h2>
+    <p id="lightStatus" class="mb-6 text-xl">Status: OFF</p>
+
+    <button onclick="toggleLight()" class="bg-yellow-500 text-black px-8 py-3 rounded font-bold">
+        Toggle Light
+    </button>
+
+    <button onclick="goBack()" class="mt-6 underline">← Back</button>
+</section>
+
+<!-- FAN PAGE -->
+<section id="fanPage" class="hidden dashboard-bg min-h-screen flex flex-col justify-center items-center">
+    <img class="device-img"
+     src="https://images.unsplash.com/photo-1584270354949-1f8d6d82d64f?auto=format&fit=crop&w=500&q=80">
+
+    <h2 class="text-4xl font-bold mb-4">Smart Fan</h2>
+    <p id="fanStatus" class="mb-6 text-xl">Status: OFF</p>
+
+    <button onclick="toggleFan()" class="bg-blue-600 px-8 py-3 rounded font-bold">
+        Toggle Fan
+    </button>
+
+    <button onclick="goBack()" class="mt-6 underline">← Back</button>
+</section>
+
+<!-- DOOR PAGE -->
+<section id="doorPage" class="hidden dashboard-bg min-h-screen flex flex-col justify-center items-center">
+    <img class="device-img"
+     src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=500&q=80">
+
+    <h2 class="text-4xl font-bold mb-4">Smart Door</h2>
+    <p id="doorStatus" class="mb-6 text-xl">Status: Locked</p>
+
+    <button onclick="toggleDoor()" class="bg-green-600 px-8 py-3 rounded font-bold">
+        Lock / Unlock
+    </button>
+
+    <button onclick="goBack()" class="mt-6 underline">← Back</button>
+</section>
+
+<script>
+let light=false, fan=false, door=true;
+
+function openDashboard(){
+    home.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+}
+
+function openDevice(device){
+    dashboard.classList.add("hidden");
+    lightPage.classList.add("hidden");
+    fanPage.classList.add("hidden");
+    doorPage.classList.add("hidden");
+
+    if(device==="light") lightPage.classList.remove("hidden");
+    if(device==="fan") fanPage.classList.remove("hidden");
+    if(device==="door") doorPage.classList.remove("hidden");
+}
+
+function toggleLight(){
+    light=!light;
+    lightStatus.innerText="Status: "+(light?"ON":"OFF");
+}
+
+function toggleFan(){
+    fan=!fan;
+    fanStatus.innerText="Status: "+(fan?"ON":"OFF");
+}
+
+function toggleDoor(){
+    door=!door;
+    doorStatus.innerText="Status: "+(door?"Locked":"Unlocked");
+}
+
+function goBack(){
+    lightPage.classList.add("hidden");
+    fanPage.classList.add("hidden");
+    doorPage.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
